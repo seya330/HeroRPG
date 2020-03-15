@@ -57,10 +57,11 @@ public class MonsterSpawner : MonoBehaviour
         if(processingTime >= creatingTime) {
             float posX = Random.Range(spawnArea.rect.xMin, spawnArea.rect.xMax);
             float posY = Random.Range(spawnArea.rect.yMin, spawnArea.rect.yMax);
-            /*float posX = 0f; float posY = 0;*/
 
-            Monster monster = Instantiate((Virus)monsterPrefab, new Vector3(posX, posY, 1), Quaternion.identity);
-            monster.transform.SetParent(this.transform);
+            Monster monster = Instantiate((Virus)monsterPrefab);
+            monster.transform.parent = this.transform;
+            monster.transform.localPosition = new Vector2(posX, posY);
+            monster.transform.rotation = Quaternion.identity;
             monsterList.Add(monster);
             monster.onDeath += () => monsterList.Remove(monster);
             monster.onDeath += () => Destroy(monster.gameObject, 3f);
